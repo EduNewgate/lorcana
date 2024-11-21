@@ -1,8 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-    background-color: var(--bluegray-50);
+    background-color: var(--bluegray-100);
 }
 
 .container {
     margin: 5rem 15rem;
+}
+
+.card {
+    background: var(--surface-card);
+    border: var(--card-border);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
 }

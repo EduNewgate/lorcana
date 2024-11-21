@@ -6,3 +6,8 @@
 ::ng-deep .p-dataview-content {
     border-radius: 0.75rem;
 }
+
+::ng-deep .p-dataview-header {
+    border: none;
+    background-color: white;
+}
