@@ -36,6 +36,12 @@ export interface CardResponse {
     legalities: Legalities;
     set: SetDetail; // Uses SetDetail for additional properties
     prices: Prices;
+    //number_of_cards?: NumberOfCards;
+}
+
+export interface NumberOfCards {
+    foil: number;
+    normal: number;
 }
 
 // Image URIs structure

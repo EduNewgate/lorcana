@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { CommonService } from '../../services/common.service';
@@ -15,14 +16,24 @@ import { CardResponse, Ink, Rarity, SetDetail } from './../../models/common.mode
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ButtonModule, CardModule, DataViewModule, DropdownModule, InputTextModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    CardModule,
+    DataViewModule,
+    DropdownModule,
+    InputNumberModule,
+    InputTextModule
+  ],
   providers: [CommonService],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
 
-  layout: "list" | "grid" = 'list';
+  layout: "list" | "grid" = 'grid';
 
   inks: Ink[] | undefined;
   rarities: Rarity[] | undefined;
@@ -33,6 +44,9 @@ export class HomeComponent implements OnInit {
   formGroup!: FormGroup;
 
   cards!: CardResponse[];
+
+  normal: number | undefined;
+  foil: number | undefined;
 
   constructor(private commonService: CommonService) { }
 
