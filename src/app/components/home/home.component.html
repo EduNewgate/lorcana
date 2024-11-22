@@ -59,7 +59,7 @@
     </div>
 
     <div class="card">
-        <p-dataView #dv [value]="cards" [layout]="layout">
+        <p-dataView #dv [value]="cards" [layout]="layout" [paginator]="true" [rows]="8">
             <ng-template pTemplate="header">
                 <div class="flex justify-content-between">
                     <div class="flex justify-content-start">
@@ -72,7 +72,7 @@
             </ng-template>
             <ng-template pTemplate="list" let-cards>
                 <div class="grid grid-nogutter">
-                    <div class="col-12" *ngFor="let item of cards; let first = first">
+                    <div class="col-12" *ngFor="let item of cards; let first = first; let i = index">
                         <div class="flex flex-column sm:flex-row sm:align-items-start p-4 gap-3"
                             [ngClass]="{ 'border-top-1 surface-border': !first }">
                             <div class="md:w-2 relative">
@@ -97,15 +97,15 @@
                                         <label class="block text-sm mb-2">
                                             Normal
                                         </label>
-                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999"
-                                            [showButtons]="true" inputId="integeronly" [(ngModel)]="normal" />
+                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999" (ngModelChange)="show()"
+                                            [showButtons]="true" inputId="integeronly" [(ngModel)]="numberOfCards[i].normal" />
                                     </div>
                                     <div class="w-5">
                                         <label class="block text-sm mb-2">
                                             Foil
                                         </label>
-                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999"
-                                            [showButtons]="true" inputId="integeronly" [(ngModel)]="foil" />
+                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999" (ngModelChange)="show()"
+                                            [showButtons]="true" inputId="integeronly" [(ngModel)]="numberOfCards[i].foil" />
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
             </ng-template>
             <ng-template let-card pTemplate="grid" let-cards>
                 <div class="grid grid-nogutter">
-                    <div class="col-12 sm:col-6 md:col-4 xl:col-3 p-2" *ngFor="let item of cards">
+                    <div class="col-12 sm:col-6 md:col-4 xl:col-3 p-2" *ngFor="let item of cards; let i = index;">
                         <div
                             class="p-4 min-h-full border-1 surface-border surface-card border-round flex flex-column justify-content-between">
                             <div class="flex-column">
@@ -154,14 +154,14 @@
                                         Normal
                                     </label>
                                     <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
-                                        inputId="integeronly" [(ngModel)]="normal" />
+                                        inputId="integeronly" [(ngModel)]="numberOfCards[i].normal" />
                                 </div>
                                 <div class="col-5 col-offset-2">
                                     <label class="block text-sm mb-2">
                                         Foil
                                     </label>
                                     <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
-                                        inputId="integeronly" [(ngModel)]="foil" />
+                                        inputId="integeronly" [(ngModel)]="numberOfCards[i].foil" />
                                 </div>
                             </div>
                         </div>

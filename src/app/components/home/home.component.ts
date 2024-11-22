@@ -11,7 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { CommonService } from '../../services/common.service';
 
-import { CardResponse, Ink, Rarity, SetDetail } from './../../models/common.model';
+import { CardResponse, Ink, NumberOfCards, Rarity, SetDetail } from './../../models/common.model';
 
 @Component({
   selector: 'app-home',
@@ -45,8 +45,7 @@ export class HomeComponent implements OnInit {
 
   cards!: CardResponse[];
 
-  normal: number | undefined;
-  foil: number | undefined;
+  numberOfCards!: Array<NumberOfCards>;
 
   constructor(private commonService: CommonService) { }
 
@@ -83,6 +82,7 @@ export class HomeComponent implements OnInit {
     this.commonService.getAllSets().subscribe((res: { results: SetDetail[] }) => {
       this.sets = res.results;
       this.formGroup.get('set')?.setValue(this.sets[this.sets.length - 1]);
+      this.searchCards();
       this.commonService.getFilteredCards(this.formGroup.value).subscribe((res: { results: CardResponse[] }) => {
         this.cards = res.results;
         this.sortCardsBySetAndNumber(this.cards);
@@ -93,6 +93,10 @@ export class HomeComponent implements OnInit {
   searchCards() {
     this.commonService.getFilteredCards(this.formGroup.value).subscribe((res: { results: CardResponse[] }) => {
       this.cards = res.results;
+      this.numberOfCards = new Array<NumberOfCards>()
+      this.cards.forEach(card => {
+        this.numberOfCards.push({cardId: card.id, normal: 0, foil: 0})
+      });
       this.sortCardsBySetAndNumber(this.cards);
     })
   }
@@ -117,6 +121,10 @@ export class HomeComponent implements OnInit {
       result = result.replaceAll("{E}", `<img src="./../../../assets/images/common/exert.png" width="13px"/>`);
       container.innerHTML = result;
     }
+  }
+
+  show() {
+    console.log(this.numberOfCards)
   }
 
   exportData() {
