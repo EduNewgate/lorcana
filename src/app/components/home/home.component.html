@@ -59,22 +59,27 @@
     </div>
 
     <div class="card">
-        <p-dataView #dv [value]="cards" [layout]="layout">
+        <p-dataView #dv [value]="cards" [layout]="layout" [rows]="8" [paginator]="true">
             <ng-template pTemplate="header">
-                <div class="flex justify-content-end">
-                    <p-dataViewLayoutOptions />
+                <div class="flex justify-content-between">
+                    <div class="flex justify-content-start">
+                        <p-button [label]="'Exportar'" (onClick)="exportData()" />
+                    </div>
+                    <div class="flex justify-content-end">
+                        <p-dataViewLayoutOptions />
+                    </div>
                 </div>
             </ng-template>
-            <ng-template pTemplate="list" let-card>
+            <ng-template pTemplate="list" let-cards>
                 <div class="grid grid-nogutter">
                     <div class="col-12" *ngFor="let item of cards; let first = first">
                         <div class="flex flex-column sm:flex-row sm:align-items-start p-4 gap-3"
                             [ngClass]="{ 'border-top-1 surface-border': !first }">
-                            <div class="md:w-10rem relative">
+                            <div class="md:w-2 relative">
                                 <img class="block xl:block mx-auto border-round" [src]="item.image_uris.digital.small"
                                     [alt]="item.name" />
                             </div>
-                            <div class="flex flex-column align-self-stretch justify-content-between">
+                            <div class="flex flex-column align-self-stretch justify-content-between w-4">
                                 <div
                                     class="flex flex-row md:flex-column justify-content-between align-items-start gap-2">
                                     <div>
@@ -85,21 +90,32 @@
                                             {{item.collector_number.padStart(3, '0')}}</span>
                                     </div>
                                 </div>
-                                <div class="flex gap-2">
-                                    <div class="w-2">
+                                <div class="flex justify-content-between gap-2 w-full">
+                                    <div class="w-5">
                                         <label class="block text-sm mb-2">
                                             Normal
                                         </label>
-                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
+                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999" [showButtons]="true"
                                             inputId="integeronly" [(ngModel)]="normal" />
                                     </div>
-                                    <div class="w-2">
+                                    <div class="w-5">
                                         <label class="block text-sm mb-2">
                                             Foil
                                         </label>
-                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
+                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999" [showButtons]="true"
                                             inputId="integeronly" [(ngModel)]="foil" />
                                     </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-column gap-2 w-full">
+                                <div class="text-xl">
+                                    Card description
+                                </div>
+                                <div class="text-xl">
+                                    {{item.text}}
+                                </div>
+                                <div class="text-sm">
+                                    {{item.flavor_text}}
                                 </div>
                             </div>
                         </div>
@@ -121,7 +137,7 @@
                                 <div class="flex flex-row justify-content-between align-items-start gap-2">
                                     <div>
                                         <div>
-                                            <div class="text-2xl font-medium text-900 mt-2">{{ item.name }}
+                                            <div class="text-lg font-medium text-900 mt-2">{{ item.name }}
                                                 {{item.version ? ' - ' + item.version : ''}}</div>
                                             <span *ngIf="item.version"
                                                 class="font-medium text-secondary text-sm">{{item.set.name}} -

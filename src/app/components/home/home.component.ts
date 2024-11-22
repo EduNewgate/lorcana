@@ -102,4 +102,8 @@ export class HomeComponent implements OnInit {
       a.set.code.padStart(3, '0').localeCompare(b.set.code.padStart(3, '0')) || a.collector_number.padStart(3, '0').localeCompare(b.collector_number.padStart(3, '0'))
     );
   }
+
+  exportData() {
+    console.log('Exportar')
+  }
 }
