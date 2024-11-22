@@ -115,12 +115,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--<div class="pt-2">
-                                <div class="flex justify-content-between">
-                                        <p-inputNumber [showButtons]="true" inputId="integeronly" [(ngModel)]="normal" />
-                                        <p-inputNumber [showButtons]="true" inputId="integeronly" [(ngModel)]="foil" />
+                            <div class="grid grid-nogutter pt-4">
+                                <div class="col-5">
+                                    <label class="block text-sm mb-2">
+                                        Normal
+                                    </label>
+                                    <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
+                                        inputId="integeronly" [(ngModel)]="normal" />
                                 </div>
-                            </div>-->
+                                <div class="col-5 col-offset-2">
+                                    <label class="block text-sm mb-2">
+                                        Foil
+                                    </label>
+                                    <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
+                                        inputId="integeronly" [(ngModel)]="foil" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

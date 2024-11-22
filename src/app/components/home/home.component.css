@@ -11,3 +11,24 @@
     border: none;
     background-color: white;
 }
+
+::ng-deep .p-inputnumber-button {
+    background-color: white;
+    color: var(--card-border);
+    border-left: none;
+    border-color: #d1d5db;
+}
+
+::ng-deep .p-inputnumber-button-down {
+    border-top: none !important;
+}
+
+::ng-deep .p-inputnumber-button-up {
+    border-bottom: none !important;
+}
+
+::ng-deep .p-inputnumber-input, ::ng-deep .p-inputtext:enabled:focus, ::ng-deep .p-inputtext:enabled:hover {
+    box-shadow: none;
+    border-color: #d1d5db;
+    border-right: none;
+}
