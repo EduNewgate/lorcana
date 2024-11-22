@@ -33,7 +33,7 @@ import { CardResponse, Ink, Rarity, SetDetail } from './../../models/common.mode
 })
 export class HomeComponent implements OnInit {
 
-  layout: "list" | "grid" = 'grid';
+  layout: "list" | "grid" = 'list';
 
   inks: Ink[] | undefined;
   rarities: Rarity[] | undefined;
