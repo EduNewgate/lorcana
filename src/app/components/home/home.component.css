@@ -27,8 +27,13 @@
     border-bottom: none !important;
 }
 
-::ng-deep .p-inputnumber-input, ::ng-deep .p-inputtext:enabled:focus, ::ng-deep .p-inputtext:enabled:hover {
+::ng-deep .p-inputnumber-input, ::ng-deep .p-inputnumber-input:enabled:focus, ::ng-deep .p-inputnumber-input:enabled:hover {
     box-shadow: none;
     border-color: #d1d5db;
     border-right: none;
+}
+
+pre {
+    white-space: pre-wrap;
+    font-family: "Inter var", sans-serif;
 }

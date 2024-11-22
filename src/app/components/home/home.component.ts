@@ -103,6 +103,22 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  formatCardDescription(cardId: string, cardDescription: string) {
+    const container = document.getElementById(cardId);
+    if (container) {
+      let result = cardDescription.replaceAll("{L}", `<img src="./../../../assets/images/common/lore.png" width="10px"/>`);
+      container.innerHTML = result;
+      result = result.replaceAll("{S}", `<img src="./../../../assets/images/common/strength.png" width="12px"/>`);
+      container.innerHTML = result;
+      result = result.replaceAll("{W}", `<img src="./../../../assets/images/common/willpower.png" width="12px"/>`);
+      container.innerHTML = result;
+      result = result.replaceAll("{I}", `<img src="./../../../assets/images/common/cost.png" width="12px"/>`);
+      container.innerHTML = result;
+      result = result.replaceAll("{E}", `<img src="./../../../assets/images/common/exert.png" width="13px"/>`);
+      container.innerHTML = result;
+    }
+  }
+
   exportData() {
     console.log('Exportar')
   }
