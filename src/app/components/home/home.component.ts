@@ -11,7 +11,8 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { CommonService } from '../../services/common.service';
 
-import { CardResponse, Ink, NumberOfCards, Rarity, SetDetail } from './../../models/common.model';
+import { CardDetail, CardResponse, Ink, NumberOfCards, Rarity, SetDetail } from './../../models/common.model';
+import { ExportService } from '../../services/export.service';
 
 @Component({
   selector: 'app-home',
@@ -43,11 +44,9 @@ export class HomeComponent implements OnInit {
 
   formGroup!: FormGroup;
 
-  cards!: CardResponse[];
+  cards!: CardDetail[];
 
-  numberOfCards!: Array<NumberOfCards>;
-
-  constructor(private commonService: CommonService) { }
+  constructor(private commonService: CommonService, private exportService: ExportService) { }
 
   ngOnInit() {
     this.initializeData();
@@ -83,27 +82,24 @@ export class HomeComponent implements OnInit {
       this.sets = res.results;
       this.formGroup.get('set')?.setValue(this.sets[this.sets.length - 1]);
       this.searchCards();
-      this.commonService.getFilteredCards(this.formGroup.value).subscribe((res: { results: CardResponse[] }) => {
-        this.cards = res.results;
-        this.sortCardsBySetAndNumber(this.cards);
-      })
     });
   }
 
   searchCards() {
     this.commonService.getFilteredCards(this.formGroup.value).subscribe((res: { results: CardResponse[] }) => {
-      this.cards = res.results;
-      this.numberOfCards = new Array<NumberOfCards>()
-      this.cards.forEach(card => {
-        this.numberOfCards.push({cardId: card.id, normal: 0, foil: 0})
-      });
+      this.cards = res.results.map((cardResponse: CardResponse) => {
+        return {
+          card: cardResponse,
+          myCards: {cardId: cardResponse.id, normal: 0, foil: 0, total: 0}
+        };
+    });
       this.sortCardsBySetAndNumber(this.cards);
     })
   }
 
-  sortCardsBySetAndNumber(cards: CardResponse[]) {
-    cards.sort((a: CardResponse, b: CardResponse) =>
-      a.set.code.padStart(3, '0').localeCompare(b.set.code.padStart(3, '0')) || a.collector_number.padStart(3, '0').localeCompare(b.collector_number.padStart(3, '0'))
+  sortCardsBySetAndNumber(cards: CardDetail[]) {
+    cards.sort((a: CardDetail, b: CardDetail) =>
+      a.card.set.code.padStart(3, '0').localeCompare(b.card.set.code.padStart(3, '0')) || a.card.collector_number.padStart(3, '0').localeCompare(b.card.collector_number.padStart(3, '0'))
     );
   }
 
@@ -123,11 +119,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  show() {
-    console.log(this.numberOfCards)
-  }
-
   exportData() {
-    console.log('Exportar')
+    this.exportService.exportToExcel(this.cards);
   }
 }

@@ -1,173 +1,178 @@
-<div class="container">
-    <h1 class="text-3xl">My Lorcana Collection</h1>
-    <div class="p-2 my-3 bg-white border-round-xl">
-        <form [formGroup]="formGroup">
-            <div class="grid">
-                <div class="col-5">
-                    <input type="text" class="w-full" pInputText formControlName="cardName"
-                        placeholder="Search by card name" />
+<div class="flex justify-content-center">
+    <div class="container">
+        <h1 class="text-3xl">My Lorcana Collection</h1>
+        <div class="p-2 my-3 bg-white border-round-xl">
+            <form [formGroup]="formGroup">
+                <div class="grid">
+                    <div class="col-5">
+                        <input type="text" class="w-full" pInputText formControlName="cardName"
+                            placeholder="Search by card name" />
+                    </div>
+                    <div class="col-2">
+                        <p-dropdown [options]="inks" formControlName="ink" [showClear]="true" optionLabel="name"
+                            placeholder="Select an Ink">
+                            <ng-template pTemplate="selectedItem">
+                                <div class="flex align-items-center gap-2" *ngIf="formGroup.get('ink')">
+                                    <img src="./../../../assets/images/inks/{{formGroup.get('ink')?.value.name.toLowerCase()}}.png"
+                                        style="width: 15px" />
+                                    <div>{{ formGroup.get('ink')?.value.name }}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template let-ink pTemplate="item">
+                                <div class="flex align-items-center gap-2">
+                                    <img src="./../../../assets/images/inks/{{ink?.name.toLowerCase()}}.png"
+                                        style="width: 18px" />
+                                    <div>{{ ink.name }}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                    <div class="col-3">
+                        <p-dropdown [options]="sets" formControlName="set" [showClear]="true" optionLabel="name"
+                            placeholder="Select a Set" />
+                    </div>
+                    <div class="col-2">
+                        <p-dropdown [options]="rarities" formControlName="rarity" [showClear]="true" optionLabel="name"
+                            placeholder="Select a Rarity">
+                            <ng-template pTemplate="selectedItem">
+                                <div class="flex align-items-center gap-2" *ngIf="formGroup.get('rarity')">
+                                    <img src="./../../../assets/images/rarities/{{formGroup.get('rarity')?.value.name.toLowerCase()}}.png"
+                                        style="width: 15px" />
+                                    <div>{{ formGroup.get('rarity')?.value.name }}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template let-rarity pTemplate="item">
+                                <div class="flex align-items-center gap-2">
+                                    <img src="./../../../assets/images/rarities/{{rarity?.name.toLowerCase()}}.png"
+                                        style="width: 18px" />
+                                    <div>{{ rarity.name }}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
                 </div>
-                <div class="col-2">
-                    <p-dropdown [options]="inks" formControlName="ink" [showClear]="true" optionLabel="name"
-                        placeholder="Select an Ink">
-                        <ng-template pTemplate="selectedItem">
-                            <div class="flex align-items-center gap-2" *ngIf="formGroup.get('ink')">
-                                <img src="./../../../assets/images/inks/{{formGroup.get('ink')?.value.name.toLowerCase()}}.png"
-                                    style="width: 15px" />
-                                <div>{{ formGroup.get('ink')?.value.name }}</div>
-                            </div>
-                        </ng-template>
-                        <ng-template let-ink pTemplate="item">
-                            <div class="flex align-items-center gap-2">
-                                <img src="./../../../assets/images/inks/{{ink?.name.toLowerCase()}}.png"
-                                    style="width: 18px" />
-                                <div>{{ ink.name }}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
+                <div class="grid">
+                    <div class="col-2">
+                        <p-button label="Buscar" (onClick)="searchCards()" />
+                    </div>
                 </div>
-                <div class="col-3">
-                    <p-dropdown [options]="sets" formControlName="set" [showClear]="true" optionLabel="name"
-                        placeholder="Select a Set" />
-                </div>
-                <div class="col-2">
-                    <p-dropdown [options]="rarities" formControlName="rarity" [showClear]="true" optionLabel="name"
-                        placeholder="Select a Rarity">
-                        <ng-template pTemplate="selectedItem">
-                            <div class="flex align-items-center gap-2" *ngIf="formGroup.get('rarity')">
-                                <img src="./../../../assets/images/rarities/{{formGroup.get('rarity')?.value.name.toLowerCase()}}.png"
-                                    style="width: 15px" />
-                                <div>{{ formGroup.get('rarity')?.value.name }}</div>
-                            </div>
-                        </ng-template>
-                        <ng-template let-rarity pTemplate="item">
-                            <div class="flex align-items-center gap-2">
-                                <img src="./../../../assets/images/rarities/{{rarity?.name.toLowerCase()}}.png"
-                                    style="width: 18px" />
-                                <div>{{ rarity.name }}</div>
-                            </div>
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-            </div>
-            <div class="grid">
-                <div class="col-2">
-                    <p-button label="Buscar" (onClick)="searchCards()" />
-                </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
 
-    <div class="card">
-        <p-dataView #dv [value]="cards" [layout]="layout" [paginator]="true" [rows]="8">
-            <ng-template pTemplate="header">
-                <div class="flex justify-content-between">
-                    <div class="flex justify-content-start">
-                        <p-button [label]="'Exportar'" (onClick)="exportData()" />
-                    </div>
-                    <div class="flex justify-content-end">
-                        <p-dataViewLayoutOptions />
-                    </div>
-                </div>
-            </ng-template>
-            <ng-template pTemplate="list" let-cards>
-                <div class="grid grid-nogutter">
-                    <div class="col-12" *ngFor="let item of cards; let first = first; let i = index">
-                        <div class="flex flex-column sm:flex-row sm:align-items-start p-4 gap-3"
-                            [ngClass]="{ 'border-top-1 surface-border': !first }">
-                            <div class="md:w-2 relative">
-                                <img class="block xl:block mx-auto border-round" [src]="item.image_uris.digital.small"
-                                    [alt]="item.name" />
-                            </div>
-                            <div class="flex flex-column align-self-stretch justify-content-between w-4">
-                                <div
-                                    class="flex flex-row md:flex-column justify-content-between align-items-start gap-2">
-                                    <div>
-                                        <div class="text-xl font-medium text-900">{{ item.name }}
-                                            {{item.version ? ' - ' + item.version : ''}}</div>
-                                        <div *ngIf="item.classifications" class="text-base font-medium text-900 my-2">{{ item.name }}
-                                            {{item.classifications.join(' | ')}}</div>
-                                        <span *ngIf="item.version"
-                                            class="font-medium text-secondary text-sm">{{item.set.name}} -
-                                            {{item.collector_number.padStart(3, '0')}}</span>
-                                    </div>
-                                </div>
-                                <div class="flex justify-content-between gap-2 w-full">
-                                    <div class="w-5">
-                                        <label class="block text-sm mb-2">
-                                            Normal
-                                        </label>
-                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999" (ngModelChange)="show()"
-                                            [showButtons]="true" inputId="integeronly" [(ngModel)]="numberOfCards[i].normal" />
-                                    </div>
-                                    <div class="w-5">
-                                        <label class="block text-sm mb-2">
-                                            Foil
-                                        </label>
-                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999" (ngModelChange)="show()"
-                                            [showButtons]="true" inputId="integeronly" [(ngModel)]="numberOfCards[i].foil" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex flex-column gap-2 w-full">
-                                <div class="text-xl mb-2">
-                                    Card description
-                                </div>
-                                <div id="{{item.id}}" class="text-base text-justify">
-                                    <pre>{{formatCardDescription(item.id, item.text)}}</pre>
-                                </div>
-                                <div class="text-sm text-justify">
-                                    {{item.flavor_text}}
-                                </div>
-                            </div>
+        <div class="card">
+            <p-dataView #dv [value]="cards" [layout]="layout" [paginator]="true" [rows]="8">
+                <ng-template pTemplate="header">
+                    <div class="flex justify-content-between">
+                        <div class="flex justify-content-start">
+                            <p-button [label]="'Exportar'" (onClick)="exportData()" />
+                        </div>
+                        <div class="flex justify-content-end">
+                            <p-dataViewLayoutOptions />
                         </div>
                     </div>
-                </div>
-            </ng-template>
-            <ng-template let-card pTemplate="grid" let-cards>
-                <div class="grid grid-nogutter">
-                    <div class="col-12 sm:col-6 md:col-4 xl:col-3 p-2" *ngFor="let item of cards; let i = index;">
-                        <div
-                            class="p-4 min-h-full border-1 surface-border surface-card border-round flex flex-column justify-content-between">
-                            <div class="flex-column">
-                                <div class="flex justify-content-center border-round p-3">
-                                    <div class="relative mx-auto">
-                                        <img class="border-round w-full" [src]="item.image_uris.digital.small"
-                                            [alt]="item.name" style="max-width: 300px;" />
-                                    </div>
+                </ng-template>
+                <ng-template pTemplate="list" let-cards>
+                    <div class="grid grid-nogutter">
+                        <div class="col-12" *ngFor="let item of cards; let first = first; let i = index">
+                            <div class="flex flex-column sm:flex-row sm:align-items-start p-4 gap-3"
+                                [ngClass]="{ 'border-top-1 surface-border': !first }">
+                                <div class="md:w-2 relative">
+                                    <img class="block xl:block mx-auto border-round"
+                                        [src]="item.card.image_uris.digital.small" [alt]="item.name" />
                                 </div>
-                                <div class="flex flex-row justify-content-between align-items-start gap-2">
-                                    <div>
+                                <div class="flex flex-column align-self-stretch justify-content-between w-4">
+                                    <div
+                                        class="flex flex-row md:flex-column justify-content-between align-items-start gap-2">
                                         <div>
-                                            <div class="text-lg font-medium text-900 mt-2">{{ item.name }}
-                                                {{item.version ? ' - ' + item.version : ''}}</div>
-                                            <span *ngIf="item.version"
-                                                class="font-medium text-secondary text-sm">{{item.set.name}} -
-                                                {{item.collector_number.padStart(3, '0')}}</span>
+                                            <div class="text-xl font-medium text-900">{{ item.card.name }}
+                                                {{item.card.version ? ' - ' + item.version : ''}}</div>
+                                            <div *ngIf="item.card.classifications"
+                                                class="text-base font-medium text-900 my-2">{{ item.card.name }}
+                                                {{item.card.classifications.join(' | ')}}</div>
+                                            <span *ngIf="item.card.version"
+                                                class="font-medium text-secondary text-sm">{{item.card.set.name}} -
+                                                {{item.card.collector_number.padStart(3, '0')}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-content-between gap-2 w-full">
+                                        <div class="w-5">
+                                            <label class="block text-sm mb-2">
+                                                Normal
+                                            </label>
+                                            <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999"
+                                                 [showButtons]="true" inputId="integeronly"
+                                                [(ngModel)]="item.myCards.normal" />
+                                        </div>
+                                        <div class="w-5">
+                                            <label class="block text-sm mb-2">
+                                                Foil
+                                            </label>
+                                            <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999"
+                                                 [showButtons]="true" inputId="integeronly"
+                                                [(ngModel)]="item.myCards.foil" />
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="grid grid-nogutter pt-4">
-                                <div class="col-5">
-                                    <label class="block text-sm mb-2">
-                                        Normal
-                                    </label>
-                                    <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
-                                        inputId="integeronly" [(ngModel)]="numberOfCards[i].normal" />
-                                </div>
-                                <div class="col-5 col-offset-2">
-                                    <label class="block text-sm mb-2">
-                                        Foil
-                                    </label>
-                                    <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
-                                        inputId="integeronly" [(ngModel)]="numberOfCards[i].foil" />
+                                <div class="flex flex-column gap-2 w-full">
+                                    <div class="text-xl mb-2">
+                                        Card description
+                                    </div>
+                                    <div id="{{item.id}}" class="text-base text-justify">
+                                        <pre>{{formatCardDescription(item.card.id, item.card.text)}}</pre>
+                                    </div>
+                                    <div class="text-sm text-justify">
+                                        {{item.card.flavor_text}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </ng-template>
-        </p-dataView>
+                </ng-template>
+                <ng-template let-card pTemplate="grid" let-cards>
+                    <div class="grid grid-nogutter">
+                        <div class="col-12 sm:col-6 md:col-4 xl:col-3 p-2" *ngFor="let item of cards; let i = index;">
+                            <div
+                                class="p-4 min-h-full border-1 surface-border surface-card border-round flex flex-column justify-content-between">
+                                <div class="flex-column">
+                                    <div class="flex justify-content-center border-round p-3">
+                                        <div class="relative mx-auto">
+                                            <img class="border-round w-full" [src]="item.card.image_uris.digital.small"
+                                                [alt]="item.card.name" style="max-width: 300px;" />
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-row justify-content-between align-items-start gap-2">
+                                        <div>
+                                            <div>
+                                                <div class="text-lg font-medium text-900 mt-2">{{ item.card.name }}
+                                                    {{item.card.version ? ' - ' + item.card.version : ''}}</div>
+                                                <span *ngIf="item.card.version"
+                                                    class="font-medium text-secondary text-sm">{{item.card.set.name}} -
+                                                    {{item.card.collector_number.padStart(3, '0')}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-nogutter pt-4">
+                                    <div class="col-5">
+                                        <label class="block text-sm mb-2">
+                                            Normal
+                                        </label>
+                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
+                                            inputId="integeronly" [(ngModel)]="item.myCards.normal" />
+                                    </div>
+                                    <div class="col-5 col-offset-2">
+                                        <label class="block text-sm mb-2">
+                                            Foil
+                                        </label>
+                                        <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
+                                            inputId="integeronly" [(ngModel)]="item.myCards.foil" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
     </div>
 </div>

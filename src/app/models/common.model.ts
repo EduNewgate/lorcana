@@ -38,8 +38,14 @@ export interface CardResponse {
     prices: Prices;
 }
 
+export interface CardDetail {
+    card: CardResponse;
+    myCards: NumberOfCards;
+}
+
 export interface NumberOfCards {
     cardId: string;
+    total: number;
     foil: number;
     normal: number;
 }
