@@ -85,7 +85,7 @@
                                         class="flex flex-row md:flex-column justify-content-between align-items-start gap-2">
                                         <div>
                                             <div class="text-xl font-medium text-900">{{ item.card.name }}
-                                                {{item.card.version ? ' - ' + item.version : ''}}</div>
+                                                {{item.card.version ? ' - ' + item.card.version : ''}}</div>
                                             <div *ngIf="item.card.classifications"
                                                 class="text-base font-medium text-900 my-2">{{ item.card.name }}
                                                 {{item.card.classifications.join(' | ')}}</div>
@@ -101,7 +101,7 @@
                                             </label>
                                             <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999"
                                                  [showButtons]="true" inputId="integeronly"
-                                                [(ngModel)]="item.myCards.normal" />
+                                                [(ngModel)]="item.myCards.normal" (ngModelChange)="updateMyTotalCards(item.myCards)" />
                                         </div>
                                         <div class="w-5">
                                             <label class="block text-sm mb-2">
@@ -109,7 +109,7 @@
                                             </label>
                                             <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [max]="999"
                                                  [showButtons]="true" inputId="integeronly"
-                                                [(ngModel)]="item.myCards.foil" />
+                                                [(ngModel)]="item.myCards.foil" (ngModelChange)="updateMyTotalCards(item.myCards)" />
                                         </div>
                                     </div>
                                 </div>
@@ -158,14 +158,14 @@
                                             Normal
                                         </label>
                                         <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
-                                            inputId="integeronly" [(ngModel)]="item.myCards.normal" />
+                                            inputId="integeronly" [(ngModel)]="item.myCards.normal" (ngModelChange)="updateMyTotalCards(item.myCards)" />
                                     </div>
                                     <div class="col-5 col-offset-2">
                                         <label class="block text-sm mb-2">
                                             Foil
                                         </label>
                                         <p-inputNumber [inputStyleClass]="'w-9'" [min]="0" [showButtons]="true"
-                                            inputId="integeronly" [(ngModel)]="item.myCards.foil" />
+                                            inputId="integeronly" [(ngModel)]="item.myCards.foil" (ngModelChange)="updateMyTotalCards(item.myCards)" />
                                     </div>
                                 </div>
                             </div>

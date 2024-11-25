@@ -122,4 +122,8 @@ export class HomeComponent implements OnInit {
   exportData() {
     this.exportService.exportToExcel(this.cards);
   }
+
+  updateMyTotalCards(myCards: NumberOfCards) {
+    myCards.total = myCards.normal + myCards.foil;
+  }
 }
